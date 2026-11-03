@@ -9,7 +9,7 @@ No backend, paid service, or build system is required.
 
 Repository and asset verification is complete. Application files are empty;
 there is no working AR experience yet. Original assets are preserved. Model
-mappings await owner confirmation, and no compiled `.mind` file is present.
+mappings are confirmed by the owner, and no compiled `.mind` file is present.
 Target indices are unassigned. See [TODO.md](TODO.md) for the phased checklist.
 The repository remote is `Pbauer34/campus-tour`.
 
@@ -34,9 +34,8 @@ assets/
 
 All three JPEGs pass image-integrity checks. All three models have parseable
 GLB 2.0 containers and no external buffer/image references. Rendering, tracking
-quality, and model scale/orientation have not been tested. The proposed mappings
-are Westgate → computer, Lion Shrine → pawprint, and Beaver Stadium → football;
-these remain unconfirmed and must not be used as approved configuration.
+quality, and model scale/orientation have not been tested. The owner-confirmed mappings
+are Westgate → computer, Lion Shrine → pawprint, and Beaver Stadium → football.
 
 ## Running locally
 
@@ -53,7 +52,7 @@ ordinary HTTP on a LAN address is generally not a secure camera context.
 
 ## MindAR target compilation and index mapping
 
-This task remains incomplete. Use the image-target compiler linked from the
+This task remains incomplete; the owner will compile the images later. Use the image-target compiler linked from the
 official MindAR project documentation, selecting the existing JPEG files without
 renaming or replacing them. Record the exact compiler version and input order,
 compile, test the resulting database, and save the exported `.mind` file under
@@ -131,6 +130,6 @@ Document pinned MindAR/A-Frame versions and applicable licenses when integrated.
 No project license has been declared in this checkout.
 
 Current limitations: no application implementation, no compiled target database,
-unconfirmed asset mappings, no chosen framework versions, no mobile/visual AR
+no chosen framework versions, no mobile/visual AR
 validation, and no deployment or usability testing. Future work is tracked in
 TODO.md; no mobile compatibility or camera-tracking success is claimed.

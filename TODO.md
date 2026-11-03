@@ -6,14 +6,14 @@
 - [x] Identify all JPEG target images and GLB models (inventory below).
 - [x] Verify JPEG integrity and GLB 2.0 headers, chunk lengths, and JSON.
 - [x] Confirm every tracked project file is present; preserve all original assets.
-- [ ] Confirm image-to-model mappings with the project owner. Proposed mappings
-  below are inferred from filenames, not approved configuration.
+- [x] Confirm image-to-model mappings with the project owner: Westgate → computer,
+  Lion Shrine → pawprint, Beaver Stadium → football.
 - [ ] Verify target-index order from the actual MindAR compilation.
 - [x] Check for a compiled MindAR file: none exists in this checkout.
 - [ ] Compile and commit a `.mind` file using the existing images; record its exact
-  input order. Blocked pending compilation and verified index mapping.
+  input order. Owner will compile the images later; compilation is deferred and indices remain unassigned.
 
-| Location | Existing JPEG | Proposed existing model | JPEG dimensions | Target index |
+| Location | Existing JPEG | Confirmed existing model | JPEG dimensions | Target index |
 | --- | --- | --- | --- | --- |
 | Westgate Building | `assets/targets/westgate-target.jpeg` | `assets/models/computer.glb` | 1920 × 840 | Unassigned |
 | Nittany Lion Shrine | `assets/targets/lion-shrine-target.jpeg` | `assets/models/pawprint.glb` | 720 × 540 | Unassigned |
@@ -92,7 +92,8 @@ Implement Westgate first; submit for review before extending to other locations.
 ## Review gates
 
 - [ ] Review and merge the repository-verification/documentation PR.
-- [ ] Confirm asset mappings and provide a compiled target file with exact index order.
+- [x] Confirm asset mappings.
+- [ ] Provide a compiled target file with exact index order.
 - [ ] Review and merge the first Westgate implementation PR before further implementation.
 
 No application implementation or deployment has been performed. Check boxes only
