@@ -193,3 +193,18 @@ with its original filename and bytes preserved. The space is URL-encoded in
 the source photo is not edited. White instruction cards and a navy-to-white
 welcome background make the interface lighter while retaining navy branding. The file contains WebP image data despite its JPEG
 extension; browser decoding is covered by the smoke test.
+
+## Spin the 3D models
+
+Drag left/right in the model pane to spin the model through a full turn; drag
+up/down to tilt it (limited to ±60°). Both touch and mouse input are supported.
+The initial gentle animation stops after interaction so it does not fight your
+chosen view. The model refits as it turns and stays within the left pane.
+Keyboard users can focus the preview and use arrow keys; Home resets its pose.
+Dragging is confined to the model pane so the synopsis can still scroll normally.
+A new landmark starts with its configured default pose. Pointer capture is
+released on cancellation, panel close, and AR exit.
+
+Automated Chromium tests exercise mouse drags, browser-dispatched touch gestures,
+keyboard turning/reset, manual pose persistence, and projected bounds for all
+three models. These do not replace touch/scroll checks on physical iPhone Safari.

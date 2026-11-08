@@ -21,6 +21,7 @@ const preview = {
     host.dataset.location = location.id;
     if (this.world && this.group) this.world.remove(this.group);
     this.group = null;
+    this.manual = false;
     const source = document.querySelector(`a-entity[data-location="${location.id}"]`);
     const mesh = source?.getObject3D('mesh');
     if (!mesh) {
@@ -61,7 +62,7 @@ const preview = {
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let elapsed = 0, last;
       const draw = time => {
-        if (!this.renderer || document.getElementById('panel').hidden) return;
+        if (!this.renderer || this.manual || document.getElementById('panel').hidden) return;
         if (!reducedMotion && last) elapsed += Math.min(time - last, 50);
         // A gentle turn keeps the broad face readable instead of turning edge-on.
         this.group.rotation.y = reducedMotion ? 0 : Math.sin(elapsed * 0.00035) * 0.35;
@@ -105,7 +106,20 @@ const preview = {
     this.camera.updateProjectionMatrix();
     this.camera.updateMatrixWorld(true);
   },
-  pause() { cancelAnimationFrame(this.frame); this.frame = null; },
+  turn(yaw, pitch, reset = false) {
+    if (!this.group || !this.renderer || document.getElementById('panel').hidden) return;
+    this.manual = true; cancelAnimationFrame(this.frame); this.frame = null;
+    this.group.rotation.y = reset ? 0 : (this.group.rotation.y + yaw) % (Math.PI * 2);
+    this.group.rotation.x = reset ? 0 : Math.max(-Math.PI / 3, Math.min(Math.PI / 3, this.group.rotation.x + pitch));
+    this.fitCamera(); this.renderer.render(this.world, this.camera);
+  },
+  pause() {
+    cancelAnimationFrame(this.frame); this.frame = null;
+    const host = document.getElementById('model-preview');
+    if (this.drag && host.hasPointerCapture(this.drag.id)) host.releasePointerCapture(this.drag.id);
+    this.drag = null;
+    host.classList.remove('dragging');
+  },
   dispose() {
     this.pause(); this.observer?.disconnect();
     if (this.renderer) { this.renderer.dispose(); this.renderer.forceContextLoss(); this.renderer.domElement.remove(); }
@@ -245,6 +259,40 @@ TOUR.locations.forEach(location => {
   const link = document.createElement('a'); link.className = 'button'; link.target = '_blank'; link.rel = 'noopener noreferrer';
   const note = document.createElement('p'); note.className = 'small'; note.textContent = 'Official Lion Shrine link awaiting verification.';
   configureLink(link, note, location); card.append(image, title, description, link, note); $('locations').append(card);
+});
+// Pointer events support both iPhone touch gestures and mouse dragging. Capture
+// keeps a drag stable when the finger briefly leaves the pane; other panes scroll.
+const modelHost = $('model-preview');
+modelHost.addEventListener('pointerdown', event => {
+  if (!preview.group || preview.drag || event.button !== 0) return;
+  preview.turn(0, 0);
+  preview.drag = { id: event.pointerId, x: event.clientX, y: event.clientY };
+  modelHost.setPointerCapture(event.pointerId);
+  modelHost.classList.add('dragging');
+  modelHost.focus({ preventScroll: true });
+});
+modelHost.addEventListener('pointermove', event => {
+  const drag = preview.drag;
+  if (!drag || drag.id !== event.pointerId) return;
+  const yaw = (event.clientX - drag.x) / Math.max(modelHost.clientWidth, 1) * Math.PI * 2;
+  const pitch = (event.clientY - drag.y) / Math.max(modelHost.clientHeight, 1) * Math.PI;
+  preview.turn(yaw, pitch);
+  drag.x = event.clientX; drag.y = event.clientY;
+});
+for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+  modelHost.addEventListener(type, event => {
+    if (preview.drag?.id !== event.pointerId) return;
+    preview.drag = null;
+    if (modelHost.hasPointerCapture(event.pointerId)) modelHost.releasePointerCapture(event.pointerId);
+    modelHost.classList.remove('dragging');
+  });
+}
+modelHost.addEventListener('keydown', event => {
+  if (!preview.group) return;
+  const step = Math.PI / 12;
+  const turns = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
+  if (event.key === 'Home') { event.preventDefault(); preview.turn(0, 0, true); }
+  else if (turns[event.key]) { event.preventDefault(); preview.turn(...turns[event.key]); }
 });
 $('start').addEventListener('click', startAR);
 $('browse').addEventListener('click', () => browse());

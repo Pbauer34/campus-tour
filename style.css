@@ -294,3 +294,9 @@ body:has(#welcome:not([hidden])) {
   min-height: 100vh;
 }
 .welcome-instructions li::marker { color: var(--blue); font-weight: 700; }
+
+/* Confine touch gestures to the model pane; the synopsis remains scrollable. */
+#model-preview { touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
+#model-preview.dragging { cursor: grabbing; }
+#model-preview:focus-visible { outline-offset: -3px; border-radius: 6px; }
+#model-hint { flex: none; margin: 6px 0 0; font-size: .7rem; line-height: 1.35; color: var(--navy); }

@@ -166,3 +166,13 @@ MindAR assets are unchanged. The Lion Shrine official link is now supplied by th
 - [x] Check photo rendering, marker bounds, and layout at five iPhone widths;
   rerun the complete browser smoke suite.
 - [ ] Review the lighter interface on physical iPhone Safari.
+
+## Interactive model spinning
+
+- [x] Add touch/mouse drag-to-spin and bounded vertical tilt for each model.
+- [x] Stop automatic motion after user interaction and refit the model while turning.
+- [x] Add focusable preview, instructions, arrow-key controls, and Home reset.
+- [x] Confine gestures to the model pane; keep synopsis scrolling available.
+- [x] Test mouse and browser-dispatched touch drags, keyboard reset, retained pose,
+  and fitted bounds for all three models; rerun iPhone-sized layout/AR smoke checks.
+- [ ] Confirm touch rotation, synopsis scrolling, and exit/restart on physical iPhone Safari.
