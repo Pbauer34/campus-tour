@@ -176,3 +176,8 @@ MindAR assets are unchanged. The Lion Shrine official link is now supplied by th
 - [x] Test mouse and browser-dispatched touch drags, keyboard reset, retained pose,
   and fitted bounds for all three models; rerun iPhone-sized layout/AR smoke checks.
 - [ ] Confirm touch rotation, synopsis scrolling, and exit/restart on physical iPhone Safari.
+
+## README simplification
+
+- [x] Replace the accumulated development notes with a concise app summary and use case,
+  project structure, MindAR explanation/mapping, and short run/test instructions.
