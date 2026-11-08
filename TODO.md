@@ -53,8 +53,8 @@ The owner authorized continuing the AR application after uploading the database.
 - [x] Create readable location information panels using the supplied descriptions.
 - [x] Keep panels visible during temporary tracking loss.
 - [x] Add user-tapped IST and Athletics website buttons; never navigate automatically.
-- [ ] Add the Lion Shrine button after its official URL is verified.
-- [ ] Verify an official Penn State Lion Shrine information URL before using it.
+- [x] Add the Lion Shrine button using the owner-supplied official URL.
+- [ ] Independently verify the supplied Lion Shrine URL response; environment network policy blocks this request.
 - [x] Implement panel close and back/stop controls and continued scanning.
 - [x] Implement non-AR fallback with all three locations and the two available links.
 - [x] Handle unavailable cameras, unsupported browsers, and tracking failures clearly.
@@ -103,8 +103,7 @@ after successful work; keep manual smartphone checks open until the owner confir
 ## Implementation notes
 
 The Lion Shrine official article URL could not be verified because network access
-was denied. Its website button is unavailable with an explanation; other supplied
-links are configured. Manual phone tests and transform tuning remain incomplete.
+was denied. The owner has now supplied the official URL and its button is configured. Manual phone tests and transform tuning remain incomplete.
 
 ## Automated validation performed
 
@@ -118,4 +117,76 @@ links are configured. Manual phone tests and transform tuning remain incomplete.
   on tracking loss, and allow closing; stop removes the scene.
 - Controlled denied-camera startup reaches the fallback without uncaught errors.
 - AR startup was mocked for lifecycle checks; no physical tracking was verified.
-- The Lion Shrine link remains blocked on official-URL verification.
+- The Lion Shrine href now matches the owner-provided URL; remote verification remains blocked.
+
+## Approved A + E overlay revision
+
+- [x] Create a new feature branch from latest main: `codex/iphone-glass-panes`.
+- [x] Implement 40%-opacity frosted glass with opaque navy text and buttons.
+- [x] Place model in left pane; stack synopsis and website panes on the right.
+- [x] Fit all three original GLBs to the pane using their real bounding spheres.
+- [x] Keep camera image free of target-anchored oversized models.
+- [x] Support safe-area insets, viewport height changes, scrolling synopsis,
+  reduced motion, and renderer cleanup on exit.
+- [x] Run browser geometry checks for all three models at seven iPhone-sized
+  portrait/landscape viewports; verify 40% opacity and minimum 44px links.
+- [x] Rerun fallback, tracking-event, panel persistence, exit, and denied-camera checks.
+- [ ] Test the revised overlay on physical iPhone Safari, including changing toolbars,
+  safe areas, rotation, contrast over camera scenes, and preview performance.
+- [ ] Review and merge the new overlay PR (no automatic merge).
+
+Owner confirmed the earlier application's functionality on a device. The revised
+pane layout still needs its own physical-device validation. Existing JPEG/GLB/
+MindAR assets are unchanged. The Lion Shrine official link is now supplied by the owner.
+
+## Larger model previews (same overlay branch)
+
+- [x] Replace conservative sphere fitting with current projected-box fitting.
+- [x] Increase preview occupancy to 92% of the limiting pane dimension.
+- [x] Use a gentle ±20° turn so models do not become edge-on during rotation.
+- [ ] Confirm the enlarged computer and football sizes on physical iPhone Safari.
+
+## Approved welcome-screen revision
+
+- [x] Add centered `PENN STATE` / `AR Campus Tour` heading and navy background.
+- [x] Use the requested subtitle and three friendly numbered instructions.
+- [x] Remove the printed-target tip, camera privacy line, and student disclaimer.
+- [x] Configure the supplied Lion Shrine URL in the dock and fallback tour.
+- [x] Check title, instructions, links, horizontal overflow, and button tap sizes at
+  five common iPhone portrait viewports; rerun the AR/dock browser smoke suite.
+- [x] Connect the uploaded `assets/old main.jpeg` without renaming or editing it.
+- [x] Verify browser decoding and photo display at five iPhone portrait widths.
+- [ ] Confirm the new welcome screen on physical iPhone Safari.
+
+## Lighter welcome screen and clear Old Main photo
+
+- [x] Remove photo blur without modifying the uploaded image.
+- [x] Replace the masked frame with four explicit white corner markers.
+- [x] Add white instruction cards and a navy-to-white welcome background.
+- [x] Check photo rendering, marker bounds, and layout at five iPhone widths;
+  rerun the complete browser smoke suite.
+- [ ] Review the lighter interface on physical iPhone Safari.
+
+## Interactive model spinning
+
+- [x] Add touch/mouse drag-to-spin and bounded vertical tilt for each model.
+- [x] Stop automatic motion after user interaction and refit the model while turning.
+- [x] Add focusable preview, instructions, arrow-key controls, and Home reset.
+- [x] Confine gestures to the model pane; keep synopsis scrolling available.
+- [x] Test mouse and browser-dispatched touch drags, keyboard reset, retained pose,
+  and fitted bounds for all three models; rerun iPhone-sized layout/AR smoke checks.
+- [ ] Confirm touch rotation, synopsis scrolling, and exit/restart on physical iPhone Safari.
+
+## README simplification
+
+- [x] Replace the accumulated development notes with a concise app summary and use case,
+  project structure, MindAR explanation/mapping, and short run/test instructions.
+
+- [x] Trim README to app summary, structure, and MindAR; remove run/publish/testing
+  guidance and simplify the model instruction to “Drag to move.”
+
+- [x] Simplify the on-screen model hint to “Drag to move”; remove the arrow-key
+  and Home-key instruction text.
+
+- [x] Rename the Westgate link to “Explore the College of IST” and center all
+  location button labels, including wrapped lines.
