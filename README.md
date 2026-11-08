@@ -189,6 +189,7 @@ The printed-target tip and both requested disclaimers have been removed.
 This is a text wordmark treatment, not an imported official logo asset.
 The welcome screen uses the owner-uploaded `assets/old main.jpeg` directly,
 with its original filename and bytes preserved. The space is URL-encoded in
-`TOUR.welcomeImage`. The viewfinder styling applies a light blur in CSS; the
-source photo is not edited. The file contains WebP image data despite its JPEG
+`TOUR.welcomeImage`. The photo is displayed without blur, with four explicit white corner markers;
+the source photo is not edited. White instruction cards and a navy-to-white
+welcome background make the interface lighter while retaining navy branding. The file contains WebP image data despite its JPEG
 extension; browser decoding is covered by the smoke test.

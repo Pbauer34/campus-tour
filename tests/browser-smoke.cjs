@@ -14,6 +14,8 @@ const assert=require('node:assert/strict');
 
  await page.waitForFunction(()=>document.querySelector('#old-main-photo').naturalWidth===600);
  assert(await page.locator('#welcome-photo').isVisible());
+ assert.equal(await page.locator('#old-main-photo').evaluate(e=>getComputedStyle(e).filter),'none');
+ assert.equal(await page.locator('.corner').count(),4);
  assert.match(await page.locator('#old-main-photo').getAttribute('src'),/old%20main\.jpeg$/);
  assert.equal(await page.locator('.wordmark').textContent(),'PENN STATE');
  assert.equal(await page.locator('.tour-title').textContent(),'AR Campus Tour');
@@ -25,6 +27,10 @@ const assert=require('node:assert/strict');
   assert(await page.locator('#welcome').evaluate(e=>e.scrollWidth<=e.clientWidth));
   const photo=await page.locator('#welcome-photo').boundingBox();
   assert(photo.width>200 && photo.x>=0 && photo.x+photo.width<=width);
+  for(const marker of await page.locator('.corner').all()) {
+   const box=await marker.boundingBox();
+   assert(box.width>=28 && box.height>=28 && box.x>=photo.x && box.y>=photo.y && box.x+box.width<=photo.x+photo.width && box.y+box.height<=photo.y+photo.height);
+  }
   for(const id of ['start','browse']) assert((await page.locator('#'+id).boundingBox()).height>=44);
  }
  await page.setViewportSize({width:390,height:844});

@@ -157,3 +157,12 @@ MindAR assets are unchanged. The Lion Shrine official link is now supplied by th
 - [x] Connect the uploaded `assets/old main.jpeg` without renaming or editing it.
 - [x] Verify browser decoding and photo display at five iPhone portrait widths.
 - [ ] Confirm the new welcome screen on physical iPhone Safari.
+
+## Lighter welcome screen and clear Old Main photo
+
+- [x] Remove photo blur without modifying the uploaded image.
+- [x] Replace the masked frame with four explicit white corner markers.
+- [x] Add white instruction cards and a navy-to-white welcome background.
+- [x] Check photo rendering, marker bounds, and layout at five iPhone widths;
+  rerun the complete browser smoke suite.
+- [ ] Review the lighter interface on physical iPhone Safari.
