@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#001e44">
-  <title>Penn State | Campus AR Tour</title>
+  <title>PENN STATE AR Campus Tour</title>
   <link rel="stylesheet" href="./style.css">
   <script defer src="https://cdn.jsdelivr.net/npm/aframe@1.5.0/dist/aframe-master.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
@@ -12,15 +12,24 @@
 </head>
 <body>
   <main>
-    <header class="brand"><span class="eyebrow">PENN STATE · UNIVERSITY PARK</span><h1>Discover campus.<br>See a little more.</h1></header>
-    <section id="welcome" class="card" aria-labelledby="welcome-title">
-      <p class="eyebrow">THREE LANDMARKS. A NEW PERSPECTIVE.</p>
-      <h2 id="welcome-title">Your campus, in augmented reality</h2>
-      <p>Point your camera at one of the tour’s target images to reveal a 3D model and the story behind the landmark.</p>
-      <ol><li>Allow camera access when prompted.</li><li>Keep the entire target image in view, in good light.</li><li>Hold steady to discover the location.</li></ol>
-      <button id="start" type="button">Start AR experience</button>
-      <button id="browse" class="secondary" type="button">Explore without a camera</button>
-      <p class="small">Camera video is processed on your device. This tour does not upload or record it.</p>
+    <section id="welcome" aria-labelledby="welcome-title">
+      <header class="welcome-heading">
+        <h1 id="welcome-title"><span class="wordmark">PENN STATE</span><span class="tour-title">AR Campus Tour</span></h1>
+        <p class="welcome-subtitle">Discover campus landmarks in new way</p>
+      </header>
+      <!-- Use the original owner-supplied photo, never a generated replacement. -->
+      <figure id="welcome-photo" class="welcome-photo" hidden>
+        <img id="old-main-photo" alt="Penn State’s Old Main building, with its clock tower, flags, and lawn">
+        <span class="viewfinder-corners" aria-hidden="true"></span>
+        <svg class="viewfinder-cube" viewBox="0 0 80 80" aria-hidden="true"><path d="M40 5 72 23v35L40 76 8 58V23Zm0 0v0M8 23l32 18 32-18M40 41v35"/></svg>
+      </figure>
+      <div class="welcome-instructions">
+        <ol><li>Tap Start AR and allow your camera.</li><li>Point at a tour target photo.</li><li>Hold steady to reveal a 3D model and its story.</li></ol>
+      </div>
+      <div class="welcome-actions">
+        <button id="start" type="button">Start AR tour</button>
+        <button id="browse" class="secondary" type="button">Explore without a camera</button>
+      </div>
     </section>
     <div id="viewer" hidden aria-label="Augmented reality camera view"></div>
     <section id="scan-controls" hidden><button id="stop" class="secondary" type="button">Exit camera</button><p id="scan-status" role="status">Point at a tour target image.</p></section>
@@ -46,7 +55,6 @@
       </div>
     </section>
     <section id="fallback" hidden aria-labelledby="fallback-title"><h2 id="fallback-title">Explore the landmarks</h2><p>Discover the tour with or without a camera.</p><div id="locations" class="locations"></div><button id="back" class="secondary" type="button">Back to welcome</button></section>
-    <footer>A student campus tour project · Not an official Penn State website</footer>
   </main>
 </body>
 </html>

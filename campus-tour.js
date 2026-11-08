@@ -3,10 +3,11 @@
 'use strict';
 const TOUR = {
   targets: './assets/targets/campus-tour.mind',
+  welcomeImage: null, // Set to the original Old Main photo path once the file is supplied.
   previewFill: 0.92, // Fraction of pane width/height used by the projected model.
   locations: [
     { id: 'westgate', targetIndex: 0, name: 'Westgate Building', image: './assets/targets/westgate-target.jpeg', model: './assets/models/computer.glb', scale: '0.05 0.05 0.05', position: '0 0 0.1', rotation: '0 0 0', description: "Home to Penn State's College of Information Sciences and Technology, Westgate Building supports education and research in cybersecurity, information technology, and data sciences.", linkLabel: 'Explore Penn State IST', url: 'https://ist.psu.edu/' },
-    { id: 'lion-shrine', targetIndex: 1, name: 'Nittany Lion Shrine', image: './assets/targets/lion-shrine-target.jpeg', model: './assets/models/pawprint.glb', scale: '0.05 0.05 0.05', position: '0 0 0.1', rotation: '0 0 0', description: "The Nittany Lion Shrine is one of Penn State's most recognizable landmarks and represents the university's history, traditions, and school pride.", linkLabel: 'Learn About the Lion Shrine', url: null },
+    { id: 'lion-shrine', targetIndex: 1, name: 'Nittany Lion Shrine', image: './assets/targets/lion-shrine-target.jpeg', model: './assets/models/pawprint.glb', scale: '0.05 0.05 0.05', position: '0 0 0.1', rotation: '0 0 0', description: "The Nittany Lion Shrine is one of Penn State's most recognizable landmarks and represents the university's history, traditions, and school pride.", linkLabel: 'Learn About the Lion Shrine', url: 'https://www.psu.edu/about/nittany-lion-shrine/' },
     { id: 'beaver-stadium', targetIndex: 2, name: 'Beaver Stadium', image: './assets/targets/beaver-stadium-target.jpeg', model: './assets/models/football.glb', scale: '0.05 0.05 0.05', position: '0 0 0.1', rotation: '0 0 0', description: 'Beaver Stadium is the home of Penn State football and one of the most recognizable landmarks on the University Park campus.', linkLabel: 'Visit Penn State Athletics', url: 'https://gopsusports.com/' }
   ]
 };
@@ -228,6 +229,13 @@ async function startAR() {
     $('viewer').hidden = false; $('viewer').append(current);
     watchdog = setTimeout(() => { if (token === generation && starting) fail(); }, 90000);
   } catch (error) { if (token === generation) fail(error); }
+}
+// Keep an unavailable original photo hidden rather than showing a broken image.
+if (TOUR.welcomeImage) {
+  const photo = $('old-main-photo');
+  photo.addEventListener('load', () => { $('welcome-photo').hidden = false; }, { once: true });
+  photo.addEventListener('error', () => { $('welcome-photo').hidden = true; });
+  photo.src = TOUR.welcomeImage;
 }
 TOUR.locations.forEach(location => {
   const card = document.createElement('article'); card.className = 'card';

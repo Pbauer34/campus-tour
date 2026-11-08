@@ -11,8 +11,22 @@ const assert=require('node:assert/strict');
  await page.goto('http://127.0.0.1:8001/campus-tour/');
  await page.waitForFunction(()=>window.AFRAME && window.MINDAR);
  const targets=await page.evaluate(async()=>new window.MINDAR.IMAGE.Compiler().importData(await (await fetch('./assets/targets/campus-tour.mind')).arrayBuffer()).length); assert.equal(targets,3); console.log('PASS: MindAR imports database with 3 targets');
+
+ assert.equal(await page.locator('.wordmark').textContent(),'PENN STATE');
+ assert.equal(await page.locator('.tour-title').textContent(),'AR Campus Tour');
+ assert.equal(await page.locator('.welcome-subtitle').textContent(),'Discover campus landmarks in new way');
+ assert.equal(await page.locator('.welcome-instructions li').count(),3);
+ assert(!/printed|camera stays|student project/i.test(await page.locator('body').innerText()));
+ for(const [width,height] of [[375,667],[390,844],[393,852],[402,874],[430,932]]) {
+  await page.setViewportSize({width,height});
+  assert(await page.locator('#welcome').evaluate(e=>e.scrollWidth<=e.clientWidth));
+  for(const id of ['start','browse']) assert((await page.locator('#'+id).boundingBox()).height>=44);
+ }
+ await page.setViewportSize({width:390,height:844});
+ await page.screenshot({path:'/tmp/campus-welcome-iphone.png'});
  await page.locator('#browse').click(); assert.equal(await page.locator('#locations article').count(),3); assert(await page.locator('#fallback').isVisible());
- assert.equal(await page.locator('#locations a:visible').count(),2);
+ assert.equal(await page.locator('#locations a:visible').count(),3);
+ assert.equal(await page.locator('#locations a').nth(1).getAttribute('href'),'https://www.psu.edu/about/nittany-lion-shrine/');
  assert(await page.locator('#locations').evaluate(e=>e.scrollWidth<=document.documentElement.clientWidth));
  await page.locator('#back').click(); assert(await page.locator('#welcome').isVisible());
  for(const path of ['assets/targets/campus-tour.mind','assets/models/computer.glb','assets/models/pawprint.glb','assets/models/football.glb','assets/targets/westgate-target.jpeg','assets/targets/lion-shrine-target.jpeg','assets/targets/beaver-stadium-target.jpeg']) {
@@ -66,7 +80,7 @@ const assert=require('node:assert/strict');
    assert(geometry.modelWidth>60 && geometry.modelHeight>40);
    assert.match(geometry.opacity,/0.4/);
    assert.equal(geometry.modelVisible,false);
-   if(i!==1) assert(geometry.linkHeight>=44);
+   assert(geometry.linkHeight>=44);
   }
   await page.setViewportSize({width:390,height:844});
   if(i===0) {

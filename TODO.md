@@ -53,8 +53,8 @@ The owner authorized continuing the AR application after uploading the database.
 - [x] Create readable location information panels using the supplied descriptions.
 - [x] Keep panels visible during temporary tracking loss.
 - [x] Add user-tapped IST and Athletics website buttons; never navigate automatically.
-- [ ] Add the Lion Shrine button after its official URL is verified.
-- [ ] Verify an official Penn State Lion Shrine information URL before using it.
+- [x] Add the Lion Shrine button using the owner-supplied official URL.
+- [ ] Independently verify the supplied Lion Shrine URL response; environment network policy blocks this request.
 - [x] Implement panel close and back/stop controls and continued scanning.
 - [x] Implement non-AR fallback with all three locations and the two available links.
 - [x] Handle unavailable cameras, unsupported browsers, and tracking failures clearly.
@@ -103,8 +103,7 @@ after successful work; keep manual smartphone checks open until the owner confir
 ## Implementation notes
 
 The Lion Shrine official article URL could not be verified because network access
-was denied. Its website button is unavailable with an explanation; other supplied
-links are configured. Manual phone tests and transform tuning remain incomplete.
+was denied. The owner has now supplied the official URL and its button is configured. Manual phone tests and transform tuning remain incomplete.
 
 ## Automated validation performed
 
@@ -118,7 +117,7 @@ links are configured. Manual phone tests and transform tuning remain incomplete.
   on tracking loss, and allow closing; stop removes the scene.
 - Controlled denied-camera startup reaches the fallback without uncaught errors.
 - AR startup was mocked for lifecycle checks; no physical tracking was verified.
-- The Lion Shrine link remains blocked on official-URL verification.
+- The Lion Shrine href now matches the owner-provided URL; remote verification remains blocked.
 
 ## Approved A + E overlay revision
 
@@ -138,7 +137,7 @@ links are configured. Manual phone tests and transform tuning remain incomplete.
 
 Owner confirmed the earlier application's functionality on a device. The revised
 pane layout still needs its own physical-device validation. Existing JPEG/GLB/
-MindAR assets are unchanged. The Lion Shrine official link remains pending.
+MindAR assets are unchanged. The Lion Shrine official link is now supplied by the owner.
 
 ## Larger model previews (same overlay branch)
 
@@ -146,3 +145,15 @@ MindAR assets are unchanged. The Lion Shrine official link remains pending.
 - [x] Increase preview occupancy to 92% of the limiting pane dimension.
 - [x] Use a gentle ±20° turn so models do not become edge-on during rotation.
 - [ ] Confirm the enlarged computer and football sizes on physical iPhone Safari.
+
+## Approved welcome-screen revision
+
+- [x] Add centered `PENN STATE` / `AR Campus Tour` heading and navy background.
+- [x] Use the requested subtitle and three friendly numbered instructions.
+- [x] Remove the printed-target tip, camera privacy line, and student disclaimer.
+- [x] Configure the supplied Lion Shrine URL in the dock and fallback tour.
+- [x] Check title, instructions, links, horizontal overflow, and button tap sizes at
+  five common iPhone portrait viewports; rerun the AR/dock browser smoke suite.
+- [ ] Add the original uploaded Old Main photograph: the chat attachment's binary
+  is not available in the workspace. Photo area stays hidden pending that file.
+- [ ] Confirm the new welcome screen on physical iPhone Safari.

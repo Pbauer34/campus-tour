@@ -83,8 +83,8 @@ The welcome screen offers an explicit Start AR action. Recognized targets
 show anchored animated models and location information. Models hide
 when tracking is lost; information panels remain readable until closed.
 Official websites open only after a button tap. A non-AR view shows all
-three locations if camera access is unavailable. The official Lion Shrine link
-must still be selected and verified before use.
+three locations if camera access is unavailable. The Lion Shrine button uses the owner-provided official URL:
+https://www.psu.edu/about/nittany-lion-shrine/.
 
 ## GitHub Pages deployment
 
@@ -132,9 +132,9 @@ Runtime dependencies are pinned to A-Frame 1.5.0 and MindAR 1.2.5, loaded from
 jsDelivr over HTTPS (both projects use the MIT license). Internet access is needed
 for these scripts; application assets are served from this repository.
 
-Current limitations: the network policy prevented verification of an official
-Lion Shrine article, so that website button is unavailable with an explanatory
-message. Add a verified official URL in `TOUR.locations[1].url` before release.
+The Lion Shrine button now uses the owner-provided URL in both the AR dock and
+fallback tour. Its href is covered by browser tests; independent remote response
+verification remains blocked by the environment network policy.
 Model transforms are initial defaults and require real target/device tuning.
 No camera-tracking, smartphone, deployment, or usability success is claimed.
 Browser tests use controlled AR start/error events and do not prove tracking.
@@ -180,3 +180,15 @@ The closer preview framing uses up to 92% of the limiting pane dimension rather
 than reserving space for a full rotation. This makes the computer and football
 more prominent while keeping every projected bounding-box corner inside the
 pane. The camera refits during the gentle turn and on viewport resize.
+
+## Navy welcome screen
+
+The approved welcome interface uses a centered two-line heading, `PENN STATE`
+and `AR Campus Tour`, with a navy background and friendly numbered instructions.
+The printed-target tip and both requested disclaimers have been removed.
+This is a text wordmark treatment, not an imported official logo asset.
+The supplied Old Main photograph is visible in chat but its original binary is
+not available in the execution workspace. `TOUR.welcomeImage` remains `null`, so
+no generated or broken image is displayed. Once the original is available, add
+it under `assets/images/` and set that configuration to its relative path. The
+existing viewfinder and light blur styling will then display it automatically.
