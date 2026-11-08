@@ -181,3 +181,6 @@ MindAR assets are unchanged. The Lion Shrine official link is now supplied by th
 
 - [x] Replace the accumulated development notes with a concise app summary and use case,
   project structure, MindAR explanation/mapping, and short run/test instructions.
+
+- [x] Trim README to app summary, structure, and MindAR; remove run/publish/testing
+  guidance and simplify the model instruction to “Drag to move.”
