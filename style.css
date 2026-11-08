@@ -41,6 +41,7 @@ h2 {
 ol {
   padding-left:24px}
 button,.button {
+  text-align:center;
   display:inline-flex;
   align-items:center;
   justify-content:center;

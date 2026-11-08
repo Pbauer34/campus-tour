@@ -187,3 +187,6 @@ MindAR assets are unchanged. The Lion Shrine official link is now supplied by th
 
 - [x] Simplify the on-screen model hint to “Drag to move”; remove the arrow-key
   and Home-key instruction text.
+
+- [x] Rename the Westgate link to “Explore the College of IST” and center all
+  location button labels, including wrapped lines.
