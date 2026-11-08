@@ -27,8 +27,23 @@
     <p id="status" class="notice" role="status" aria-live="polite"></p>
     <section id="panel" class="card info" hidden aria-labelledby="panel-title">
       <button id="close-panel" class="close secondary" aria-label="Close location information" type="button">×</button>
-      <p class="eyebrow">YOU FOUND A CAMPUS LANDMARK</p><h2 id="panel-title"></h2><p id="panel-description"></p>
-      <a id="panel-link" class="button" target="_blank" rel="noopener noreferrer"></a><p id="panel-link-note" class="small" hidden>Official Lion Shrine link awaiting verification.</p>
+      <h2 id="panel-title"></h2>
+      <div class="pane-grid">
+        <section class="model-pane" aria-labelledby="model-heading">
+          <h3 id="model-heading" class="pane-heading">3D model</h3>
+          <div id="model-preview" role="img" aria-label="Landmark 3D model"></div>
+          <p id="model-status" class="small" role="status">Loading model…</p>
+        </section>
+        <section class="synopsis-pane" aria-labelledby="about-heading" tabindex="0">
+          <h3 id="about-heading" class="pane-heading">About</h3>
+          <p id="panel-description"></p>
+        </section>
+        <section class="link-pane" aria-labelledby="explore-heading">
+          <h3 id="explore-heading" class="pane-heading">Explore</h3>
+          <a id="panel-link" class="button" target="_blank" rel="noopener noreferrer"></a>
+          <p id="panel-link-note" class="small" hidden>Official Lion Shrine link awaiting verification.</p>
+        </section>
+      </div>
     </section>
     <section id="fallback" hidden aria-labelledby="fallback-title"><h2 id="fallback-title">Explore the landmarks</h2><p>Discover the tour with or without a camera.</p><div id="locations" class="locations"></div><button id="back" class="secondary" type="button">Back to welcome</button></section>
     <footer>A student campus tour project · Not an official Penn State website</footer>

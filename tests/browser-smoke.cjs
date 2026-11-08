@@ -30,6 +30,36 @@ const assert=require('node:assert/strict');
  for(let i=0;i<3;i++){
   await page.evaluate(i=>document.querySelectorAll('[mindar-image-target]')[i].emit('targetFound'),i);
   assert(await page.locator('#panel').isVisible());
+  await page.waitForFunction(()=>document.querySelector('#model-preview canvas'));
+  for (const [width,height] of [[375,667],[375,812],[390,844],[393,852],[402,874],[430,932],[844,390]]) {
+   await page.setViewportSize({width,height});
+   await page.waitForTimeout(100);
+   const geometry=await page.evaluate(()=>{
+    const panel=document.querySelector('#panel'), model=document.querySelector('#model-preview');
+    const p=panel.getBoundingClientRect(), m=model.getBoundingClientRect();
+    const synopsis=document.querySelector('.synopsis-pane').getBoundingClientRect();
+    const link=document.querySelector('.link-pane').getBoundingClientRect();
+    return {x:p.x,right:p.right,top:p.top,bottom:p.bottom,modelWidth:m.width,modelHeight:m.height,
+     inside:m.left>=p.left && m.right<=p.right && m.bottom<=p.bottom,
+     split:m.right<=synopsis.left && synopsis.bottom<=link.top+1,
+     overflow:panel.scrollWidth>panel.clientWidth,opacity:getComputedStyle(panel).backgroundColor,
+     linkHeight:document.querySelector('#panel-link').getBoundingClientRect().height,
+     modelVisible:document.querySelector('a-entity[data-location]').getAttribute('visible')};
+   });
+   assert(geometry.x>=0 && geometry.right<=width+1 && geometry.bottom<=height+1);
+   assert(geometry.top>=height*.5,JSON.stringify(geometry));
+   assert(geometry.inside && geometry.split && !geometry.overflow,JSON.stringify(geometry));
+   assert(geometry.modelWidth>60 && geometry.modelHeight>40);
+   assert.match(geometry.opacity,/0.4/);
+   assert.equal(geometry.modelVisible,false);
+   if(i!==1) assert(geometry.linkHeight>=44);
+  }
+  await page.setViewportSize({width:390,height:844});
+  if(i===0) {
+   // Illustrative camera backdrop only; the AR startup remains mocked.
+   await page.locator('#viewer').evaluate(e=>{ e.style.background='url(./assets/targets/westgate-target.jpeg) center / cover'; });
+   await page.screenshot({path:process.env.SCREENSHOT_PATH || '/tmp/campus-glass-iphone.png'});
+  }
   await page.evaluate(i=>document.querySelectorAll('[mindar-image-target]')[i].emit('targetLost'),i);
   assert(await page.locator('#panel').isVisible());
   await page.locator('#close-panel').click(); assert(await page.locator('#panel').isHidden());
@@ -37,6 +67,6 @@ const assert=require('node:assert/strict');
  await page.locator('#stop').click(); assert.equal(await page.locator('a-scene').count(),0);
  await page.evaluate(()=>{buildScene=()=>{const e=originalBuild();e.addEventListener('loaded',()=>{e.systems['mindar-image-system'].start=async()=>{throw new DOMException('Denied','NotAllowedError')};},{once:true});return e;};});
  await page.locator('#start').click(); await page.waitForSelector('#fallback:not([hidden])'); assert.match(await page.locator('#status').textContent(),/permission was denied/);
- assert.deepEqual(errors,[]); console.log('PASS: dependencies initialize; 7 assets served under subpath; fallback/navigation; 3 target panel events; close/persistence; stop; denied-camera recovery. AR start mocked; no physical tracking verified.');
+ assert.deepEqual(errors,[]); console.log('PASS: 3 models fit dock across 7 iPhone-sized portrait/landscape viewports; 40% glass and 44px links; dependencies initialize; 7 assets served under subpath; fallback/navigation; 3 target panel events; close/persistence; stop; denied-camera recovery. AR start mocked; no physical tracking verified.');
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

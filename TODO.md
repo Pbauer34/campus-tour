@@ -119,3 +119,23 @@ links are configured. Manual phone tests and transform tuning remain incomplete.
 - Controlled denied-camera startup reaches the fallback without uncaught errors.
 - AR startup was mocked for lifecycle checks; no physical tracking was verified.
 - The Lion Shrine link remains blocked on official-URL verification.
+
+## Approved A + E overlay revision
+
+- [x] Create a new feature branch from latest main: `codex/iphone-glass-panes`.
+- [x] Implement 40%-opacity frosted glass with opaque navy text and buttons.
+- [x] Place model in left pane; stack synopsis and website panes on the right.
+- [x] Fit all three original GLBs to the pane using their real bounding spheres.
+- [x] Keep camera image free of target-anchored oversized models.
+- [x] Support safe-area insets, viewport height changes, scrolling synopsis,
+  reduced motion, and renderer cleanup on exit.
+- [x] Run browser geometry checks for all three models at seven iPhone-sized
+  portrait/landscape viewports; verify 40% opacity and minimum 44px links.
+- [x] Rerun fallback, tracking-event, panel persistence, exit, and denied-camera checks.
+- [ ] Test the revised overlay on physical iPhone Safari, including changing toolbars,
+  safe areas, rotation, contrast over camera scenes, and preview performance.
+- [ ] Review and merge the new overlay PR (no automatic merge).
+
+Owner confirmed the earlier application's functionality on a device. The revised
+pane layout still needs its own physical-device validation. Existing JPEG/GLB/
+MindAR assets are unchanged. The Lion Shrine official link remains pending.

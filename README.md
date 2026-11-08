@@ -150,3 +150,28 @@ checkout at port 8001 so the project is available beneath `/campus-tour/`, then 
 `TEST_DEPENDENCY_DIR` to a directory containing securely downloaded copies of the
 exact pinned scripts named `aframe.js` and `mindar.js`. Tests use controlled AR
 startup/events and do not validate camera tracking. Smartphone checks remain open.
+
+## Approved glass dock (A + E)
+
+The camera view stays clear above a bottom dock, limited to 44% of the current
+viewport height in portrait. Its white background has **40% opacity** with a
+14px backdrop blur. Text and buttons stay fully opaque. The left 40% of the dock
+holds the selected original GLB; the right 60% holds a scrollable synopsis above
+the website link. The dock and model remain visible after tracking loss until
+closed. No model is rendered over the tracked image.
+
+The preview reuses the mesh loaded by A-Frame, centers it by its real bounds,
+and fits its bounding sphere to the available pane, including during rotation.
+Adjust `TOUR.previewFill` (currently 0.8) to change the model's pane occupancy;
+`location.rotation` sets its initial orientation. Target-space `scale` and
+`position` are retained as configuration but do not control the dock preview.
+There are no new runtime dependencies. Animation respects reduced-motion
+preferences, and the renderer is released when exiting AR. Devices lacking
+backdrop blur use a denser background for readability.
+
+Automated Chromium checks cover all three models at 375×667, 375×812, 390×844,
+393×852, 402×874, 430×932, and 844×390 CSS-pixel viewports. These verify layout,
+model pane bounds, opacity, and 44px link targets, not physical iPhone Safari.
+On your iPhone, verify Safari toolbar expansion/collapse, notch/home-indicator
+clearance, rotation, synopsis scrolling, text contrast over bright/dark camera
+scenes, all three models, camera exit/restart, and sustained performance.
