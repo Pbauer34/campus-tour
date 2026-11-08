@@ -154,6 +154,6 @@ MindAR assets are unchanged. The Lion Shrine official link is now supplied by th
 - [x] Configure the supplied Lion Shrine URL in the dock and fallback tour.
 - [x] Check title, instructions, links, horizontal overflow, and button tap sizes at
   five common iPhone portrait viewports; rerun the AR/dock browser smoke suite.
-- [ ] Add the original uploaded Old Main photograph: the chat attachment's binary
-  is not available in the workspace. Photo area stays hidden pending that file.
+- [x] Connect the uploaded `assets/old main.jpeg` without renaming or editing it.
+- [x] Verify browser decoding and photo display at five iPhone portrait widths.
 - [ ] Confirm the new welcome screen on physical iPhone Safari.

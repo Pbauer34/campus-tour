@@ -187,8 +187,8 @@ The approved welcome interface uses a centered two-line heading, `PENN STATE`
 and `AR Campus Tour`, with a navy background and friendly numbered instructions.
 The printed-target tip and both requested disclaimers have been removed.
 This is a text wordmark treatment, not an imported official logo asset.
-The supplied Old Main photograph is visible in chat but its original binary is
-not available in the execution workspace. `TOUR.welcomeImage` remains `null`, so
-no generated or broken image is displayed. Once the original is available, add
-it under `assets/images/` and set that configuration to its relative path. The
-existing viewfinder and light blur styling will then display it automatically.
+The welcome screen uses the owner-uploaded `assets/old main.jpeg` directly,
+with its original filename and bytes preserved. The space is URL-encoded in
+`TOUR.welcomeImage`. The viewfinder styling applies a light blur in CSS; the
+source photo is not edited. The file contains WebP image data despite its JPEG
+extension; browser decoding is covered by the smoke test.

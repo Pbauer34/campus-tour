@@ -3,7 +3,7 @@
 'use strict';
 const TOUR = {
   targets: './assets/targets/campus-tour.mind',
-  welcomeImage: null, // Set to the original Old Main photo path once the file is supplied.
+  welcomeImage: './assets/old%20main.jpeg', // Preserve the uploaded filename, including its space.
   previewFill: 0.92, // Fraction of pane width/height used by the projected model.
   locations: [
     { id: 'westgate', targetIndex: 0, name: 'Westgate Building', image: './assets/targets/westgate-target.jpeg', model: './assets/models/computer.glb', scale: '0.05 0.05 0.05', position: '0 0 0.1', rotation: '0 0 0', description: "Home to Penn State's College of Information Sciences and Technology, Westgate Building supports education and research in cybersecurity, information technology, and data sciences.", linkLabel: 'Explore Penn State IST', url: 'https://ist.psu.edu/' },

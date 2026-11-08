@@ -12,6 +12,9 @@ const assert=require('node:assert/strict');
  await page.waitForFunction(()=>window.AFRAME && window.MINDAR);
  const targets=await page.evaluate(async()=>new window.MINDAR.IMAGE.Compiler().importData(await (await fetch('./assets/targets/campus-tour.mind')).arrayBuffer()).length); assert.equal(targets,3); console.log('PASS: MindAR imports database with 3 targets');
 
+ await page.waitForFunction(()=>document.querySelector('#old-main-photo').naturalWidth===600);
+ assert(await page.locator('#welcome-photo').isVisible());
+ assert.match(await page.locator('#old-main-photo').getAttribute('src'),/old%20main\.jpeg$/);
  assert.equal(await page.locator('.wordmark').textContent(),'PENN STATE');
  assert.equal(await page.locator('.tour-title').textContent(),'AR Campus Tour');
  assert.equal(await page.locator('.welcome-subtitle').textContent(),'Discover campus landmarks in new way');
@@ -20,6 +23,8 @@ const assert=require('node:assert/strict');
  for(const [width,height] of [[375,667],[390,844],[393,852],[402,874],[430,932]]) {
   await page.setViewportSize({width,height});
   assert(await page.locator('#welcome').evaluate(e=>e.scrollWidth<=e.clientWidth));
+  const photo=await page.locator('#welcome-photo').boundingBox();
+  assert(photo.width>200 && photo.x>=0 && photo.x+photo.width<=width);
   for(const id of ['start','browse']) assert((await page.locator('#'+id).boundingBox()).height>=44);
  }
  await page.setViewportSize({width:390,height:844});
