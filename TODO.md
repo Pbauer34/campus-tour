@@ -184,3 +184,6 @@ MindAR assets are unchanged. The Lion Shrine official link is now supplied by th
 
 - [x] Trim README to app summary, structure, and MindAR; remove run/publish/testing
   guidance and simplify the model instruction to “Drag to move.”
+
+- [x] Simplify the on-screen model hint to “Drag to move”; remove the arrow-key
+  and Home-key instruction text.
