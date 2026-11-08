@@ -3,7 +3,7 @@
 'use strict';
 const TOUR = {
   targets: './assets/targets/campus-tour.mind',
-  previewFill: 0.8, // Fraction of the preview available to the model's bounding sphere.
+  previewFill: 0.92, // Fraction of pane width/height used by the projected model.
   locations: [
     { id: 'westgate', targetIndex: 0, name: 'Westgate Building', image: './assets/targets/westgate-target.jpeg', model: './assets/models/computer.glb', scale: '0.05 0.05 0.05', position: '0 0 0.1', rotation: '0 0 0', description: "Home to Penn State's College of Information Sciences and Technology, Westgate Building supports education and research in cybersecurity, information technology, and data sciences.", linkLabel: 'Explore Penn State IST', url: 'https://ist.psu.edu/' },
     { id: 'lion-shrine', targetIndex: 1, name: 'Nittany Lion Shrine', image: './assets/targets/lion-shrine-target.jpeg', model: './assets/models/pawprint.glb', scale: '0.05 0.05 0.05', position: '0 0 0.1', rotation: '0 0 0', description: "The Nittany Lion Shrine is one of Penn State's most recognizable landmarks and represents the university's history, traditions, and school pride.", linkLabel: 'Learn About the Lion Shrine', url: null },
@@ -50,14 +50,21 @@ const preview = {
       const factor = 1.4 / Math.max(size.x, size.y, size.z, 0.001);
       content.position.sub(center); content.position.multiplyScalar(factor); content.scale.multiplyScalar(factor);
       this.group = new THREE.Group(); this.group.add(content); this.world.add(this.group);
-      this.radius = new THREE.Box3().setFromObject(this.group).getBoundingSphere(new THREE.Sphere()).radius;
+      const bounds = new THREE.Box3().setFromObject(this.group);
+      this.corners = [];
+      for (const x of [bounds.min.x, bounds.max.x])
+        for (const y of [bounds.min.y, bounds.max.y])
+          for (const z of [bounds.min.z, bounds.max.z]) this.corners.push(new THREE.Vector3(x, y, z));
       this.resize();
       document.getElementById('model-status').textContent = '';
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let last;
+      let elapsed = 0, last;
       const draw = time => {
         if (!this.renderer || document.getElementById('panel').hidden) return;
-        if (!reducedMotion && last) this.group.rotation.y += Math.min(time - last, 50) * 0.00025;
+        if (!reducedMotion && last) elapsed += Math.min(time - last, 50);
+        // A gentle turn keeps the broad face readable instead of turning edge-on.
+        this.group.rotation.y = reducedMotion ? 0 : Math.sin(elapsed * 0.00035) * 0.35;
+        this.fitCamera();
         last = time;
         this.renderer.render(this.world, this.camera);
         if (!reducedMotion) this.frame = requestAnimationFrame(draw);
@@ -75,11 +82,27 @@ const preview = {
     if (!width || !height) return;
     this.renderer.setSize(width, height);
     this.camera.aspect = width / height;
-    // A bounding sphere also fits while rotating, even in narrow iPhone panes.
-    const halfFov = Math.atan(Math.tan(this.camera.fov * Math.PI / 360) * Math.min(1, this.camera.aspect));
-    this.camera.position.set(0, 0, (this.radius / TOUR.previewFill) / Math.sin(halfFov));
-    this.camera.lookAt(0, 0, 0); this.camera.updateProjectionMatrix();
+    this.fitCamera();
     this.renderer.render(this.world, this.camera);
+  },
+  fitCamera() {
+    if (!this.group || !this.corners) return;
+    const tanY = Math.tan(this.camera.fov * Math.PI / 360);
+    const tanX = tanY * this.camera.aspect;
+    const fill = TOUR.previewFill;
+    this.group.updateMatrixWorld(true);
+    // Fit the current projected box, including depth. Unlike a sphere this does
+    // not waste pane width around wide/flat models such as the computer.
+    let distance = 0.1;
+    for (const corner of this.corners) {
+      const point = corner.clone().applyMatrix4(this.group.matrixWorld);
+      distance = Math.max(distance, point.z + Math.abs(point.x) / (tanX * fill),
+        point.z + Math.abs(point.y) / (tanY * fill));
+    }
+    this.camera.position.set(0, 0, distance);
+    this.camera.lookAt(0, 0, 0);
+    this.camera.updateProjectionMatrix();
+    this.camera.updateMatrixWorld(true);
   },
   pause() { cancelAnimationFrame(this.frame); this.frame = null; },
   dispose() {

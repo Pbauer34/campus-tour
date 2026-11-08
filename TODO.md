@@ -139,3 +139,10 @@ links are configured. Manual phone tests and transform tuning remain incomplete.
 Owner confirmed the earlier application's functionality on a device. The revised
 pane layout still needs its own physical-device validation. Existing JPEG/GLB/
 MindAR assets are unchanged. The Lion Shrine official link remains pending.
+
+## Larger model previews (same overlay branch)
+
+- [x] Replace conservative sphere fitting with current projected-box fitting.
+- [x] Increase preview occupancy to 92% of the limiting pane dimension.
+- [x] Use a gentle ±20° turn so models do not become edge-on during rotation.
+- [ ] Confirm the enlarged computer and football sizes on physical iPhone Safari.

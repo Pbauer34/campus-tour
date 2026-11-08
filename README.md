@@ -161,8 +161,8 @@ the website link. The dock and model remain visible after tracking loss until
 closed. No model is rendered over the tracked image.
 
 The preview reuses the mesh loaded by A-Frame, centers it by its real bounds,
-and fits its bounding sphere to the available pane, including during rotation.
-Adjust `TOUR.previewFill` (currently 0.8) to change the model's pane occupancy;
+and fits its projected bounds to the available pane during a gentle ±20° turn.
+Adjust `TOUR.previewFill` (currently 0.92) to change the model's pane occupancy;
 `location.rotation` sets its initial orientation. Target-space `scale` and
 `position` are retained as configuration but do not control the dock preview.
 There are no new runtime dependencies. Animation respects reduced-motion
@@ -175,3 +175,8 @@ model pane bounds, opacity, and 44px link targets, not physical iPhone Safari.
 On your iPhone, verify Safari toolbar expansion/collapse, notch/home-indicator
 clearance, rotation, synopsis scrolling, text contrast over bright/dark camera
 scenes, all three models, camera exit/restart, and sustained performance.
+
+The closer preview framing uses up to 92% of the limiting pane dimension rather
+than reserving space for a full rotation. This makes the computer and football
+more prominent while keeping every projected bounding-box corner inside the
+pane. The camera refits during the gentle turn and on viewport resize.

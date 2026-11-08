@@ -44,11 +44,25 @@ const assert=require('node:assert/strict');
      split:m.right<=synopsis.left && synopsis.bottom<=link.top+1,
      overflow:panel.scrollWidth>panel.clientWidth,opacity:getComputedStyle(panel).backgroundColor,
      linkHeight:document.querySelector('#panel-link').getBoundingClientRect().height,
+     projectedFit:(()=>{
+      const original=preview.group.rotation.y;
+      let tightest=0;
+      for(const angle of [-.35,0,.35]) {
+       preview.group.rotation.y=angle; preview.fitCamera();
+       const points=preview.corners.map(p=>p.clone().applyMatrix4(preview.group.matrixWorld).project(preview.camera));
+       const extent=Math.max(...points.flatMap(p=>[Math.abs(p.x),Math.abs(p.y)]));
+       if(extent>.925 || extent<.90) return false;
+       tightest=Math.max(tightest,extent);
+      }
+      preview.group.rotation.y=original; preview.fitCamera();
+      return tightest;
+     })(),
      modelVisible:document.querySelector('a-entity[data-location]').getAttribute('visible')};
    });
    assert(geometry.x>=0 && geometry.right<=width+1 && geometry.bottom<=height+1);
    assert(geometry.top>=height*.5,JSON.stringify(geometry));
    assert(geometry.inside && geometry.split && !geometry.overflow,JSON.stringify(geometry));
+   assert(geometry.projectedFit,JSON.stringify(geometry));
    assert(geometry.modelWidth>60 && geometry.modelHeight>40);
    assert.match(geometry.opacity,/0.4/);
    assert.equal(geometry.modelVisible,false);
